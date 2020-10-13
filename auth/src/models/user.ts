@@ -15,12 +15,11 @@ interface UserModel extends mongoose.Model<UserDoc> {
 }
 
 //An interface that describes the properties
-//that a User Doducment has
+//that a User Document has
 interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
 }
-
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -30,6 +29,15 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  }
+},  {
+  toJSON: {
+    transform(doc, ret){
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.password;
+      delete ret.__v;
+    }
   }
 });
 
@@ -46,10 +54,5 @@ userSchema.statics.build = (attrs: UserAttrs) => {
 };
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
-
-const user = User.build({
-  email: 'fdfd',
-  password: 'sdsd'
-})
 
 export { User };
