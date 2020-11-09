@@ -1,18 +1,26 @@
-apiVersion: skaffold/v2alpha3
+apiVersion: skaffold/v2beta8
 kind: Config
+build:
+  artifacts:
+  - image: stevenhunter/auth
+    context: auth
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+    docker:
+      dockerfile: Dockerfile
+  - image: stevenhunter/client
+    context: client
+    sync:
+      manual:
+      - src: '**/*.js'
+        dest: .
+    docker:
+      dockerfile: Dockerfile
+  local:
+    push: false
 deploy:
   kubectl:
     manifests:
-      - ./infra/k8s/*
-build:
-  local:
-    push: false
-  artifacts:
-    - image: stevenhunter/auth
-      context: auth
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
+    - ./infra/k8s/*

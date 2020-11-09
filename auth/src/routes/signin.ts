@@ -34,7 +34,7 @@ router.post(
       password
     );
     if (!passwordsMatch) {
-      throw new BadRequestError('Invalid Credentials');
+      throw new BadRequestError('Invalid credentials');
     }
 
       // generate json web token
