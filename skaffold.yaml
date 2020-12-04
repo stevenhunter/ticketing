@@ -1,6 +1,8 @@
 apiVersion: skaffold/v2beta8
 kind: Config
 build:
+  local:
+    push: false
   artifacts:
   - image: stevenhunter/auth
     context: auth
@@ -18,8 +20,14 @@ build:
         dest: .
     docker:
       dockerfile: Dockerfile
-  local:
-    push: false
+  - image: stevenhunter/tickets
+    context: tickets
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+    docker:
+      dockerfile: Dockerfile    
 deploy:
   kubectl:
     manifests:
