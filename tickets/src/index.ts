@@ -6,7 +6,8 @@ const start = async () =>  {
   if (!process.env.JWT_KEY){
     throw new Error('Env var JWT_KEY must be defined');
   }
-  if (!process.env.MONGO_URI){
+  
+  if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI must be defined');
   }
 
